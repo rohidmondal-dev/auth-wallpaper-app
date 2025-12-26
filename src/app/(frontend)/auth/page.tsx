@@ -29,12 +29,12 @@ const page = () => {
 				</CardContent>
 
 				<CardFooter className="gap-1 text-center">
-					Don&apos;t have an account?{" "}
+					Don&apos;t have an account?
 					<Link
 						className="underline"
 						href={"/auth/register"}>
 						Register
-					</Link>{" "}
+					</Link>
 					now
 				</CardFooter>
 			</Card>
