@@ -1,13 +1,20 @@
 "use client";
+
 import { loginSchema, LoginSchemaType } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FingerprintIcon, LoaderIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import { Button } from "../shadcnui/button";
 import { Checkbox } from "../shadcnui/checkbox";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const LoginForm = () => {
-	const { handleSubmit, control } = useForm({
+	const {
+		handleSubmit,
+		control,
+		formState: { isSubmitting },
+	} = useForm({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
 			email: "",
@@ -17,13 +24,14 @@ const LoginForm = () => {
 		mode: "all",
 	});
 
-	const loginFormHandler = async (loginData: LoginSchemaType) => {
+	const loginHandeler = async (loginData: LoginSchemaType) => {
 		console.log(loginData);
 	};
+
 	return (
 		<form
-			onSubmit={handleSubmit(loginFormHandler)}
-			className=""
+			onSubmit={handleSubmit(loginHandeler)}
+			className="grid gap-4"
 			noValidate>
 			<Controller
 				name="email"
@@ -34,13 +42,12 @@ const LoginForm = () => {
 						<Input
 							{...field}
 							id={field.name}
+							aria-invalid={fieldState.invalid}
 							type="email"
-							placeholder="john@example.com"
+							placeholder="Enter your email"
 							autoComplete="email"
 						/>
-						{fieldState.invalid && (
-							<FieldError>{fieldState.invalid}</FieldError>
-						)}
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 					</Field>
 				)}
 			/>
@@ -49,18 +56,17 @@ const LoginForm = () => {
 				name="password"
 				control={control}
 				render={({ field, fieldState }) => (
-					<Field data-invalid={!!fieldState.invalid}>
+					<Field data-invalid={fieldState.invalid}>
 						<FieldLabel htmlFor={field.name}>Password</FieldLabel>
 						<Input
 							{...field}
 							id={field.name}
+							aria-invalid={fieldState.invalid}
 							type="password"
-							placeholder="Enter Your Password"
+							placeholder="Enter your password"
 							autoComplete="current-password"
 						/>
-						{fieldState.error && (
-							<FieldError>{fieldState.error.message}</FieldError>
-						)}
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 					</Field>
 				)}
 			/>
@@ -70,7 +76,7 @@ const LoginForm = () => {
 				control={control}
 				render={({ field, fieldState }) => (
 					<Field
-						data-invalid={!!fieldState.invalid}
+						data-invalid={fieldState.invalid}
 						orientation="horizontal">
 						<Checkbox
 							id={field.name}
@@ -78,15 +84,27 @@ const LoginForm = () => {
 							checked={field.value}
 							onCheckedChange={field.onChange}
 						/>
-
 						<FieldLabel htmlFor={field.name}>Remember Me</FieldLabel>
 
-						{fieldState.error && (
-							<FieldError>{fieldState.error.message}</FieldError>
-						)}
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 					</Field>
 				)}
 			/>
+
+			<Button
+				type="submit"
+				className="cursor-pointer"
+				disabled={isSubmitting}>
+				{isSubmitting ? (
+					<>
+						<LoaderIcon className="animate-spin" /> Submitting
+					</>
+				) : (
+					<>
+						<FingerprintIcon /> Login
+					</>
+				)}
+			</Button>
 		</form>
 	);
 };
