@@ -1,7 +1,23 @@
+"use client";
+
+import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 import { Button } from "../shadcnui/button";
 
 const LoginDashBoardButton = () => {
-	return <Button>Login/Dashboard</Button>;
+	const { data } = authClient.useSession();
+	if (data) {
+		return (
+			<Button asChild>
+				<Link href={"/studio"}>Dashboard</Link>
+			</Button>
+		);
+	}
+	return (
+		<Button>
+			<Link href={"/auth"}>Login</Link>
+		</Button>
+	);
 };
 
 export default LoginDashBoardButton;
