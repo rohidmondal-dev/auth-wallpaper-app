@@ -21,4 +21,8 @@ export const registerSchema = z
 		error: "Password didn't match",
 	});
 
+	export const tagSchema = z.object({
+  slug: z.string().min(3, "Input a valid tag name"),
+});
+
 export type RegisterSchemaType = z.infer<typeof registerSchema>;
