@@ -1,8 +1,8 @@
 const CreateTagForm = () => {
     return (
-        <div>
-            Enter
-        </div>
+        <>
+            
+        </>
     );
 }
 

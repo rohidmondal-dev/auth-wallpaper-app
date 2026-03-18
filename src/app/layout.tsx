@@ -1,4 +1,5 @@
 import ThemeProvider from "@/components/Providers/ThemeProvider";
+import { geistMono, geistSans } from "@/lib/font";
 import { ReactNode } from "react";
 import "./globals.css";
 
@@ -9,8 +10,9 @@ type RootLayoutProps = {
 const RootLayout = ({ children }: Readonly<RootLayoutProps>) => {
 	return (
 		<html
-			lang="en"
-			suppressHydrationWarning>
+		 lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      suppressHydrationWarning>
 			<body>
 				<ThemeProvider
 					attribute={"class"}
