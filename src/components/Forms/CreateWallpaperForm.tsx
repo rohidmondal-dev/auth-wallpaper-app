@@ -3,9 +3,15 @@
 import Image from "next/image";
 import { Fragment, useState } from "react";
 import { useFilePicker } from 'use-file-picker';
+import { Tag } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import { Combobox, ComboboxChip, ComboboxChips, ComboboxChipsInput, ComboboxContent, ComboboxEmpty, ComboboxItem, ComboboxList, ComboboxValue, useComboboxAnchor } from "../shadcnui/combobox";
+import CreateTagForm from "./CreateTagForm";
+
+type CreateWallpaperFormProps = {
+  wpTags: Tag[];
+};
 
 const CreateWallpaperForm = () => {
 
@@ -29,13 +35,14 @@ const anchor = useComboboxAnchor()
     })
     return (
         <>
-            <CardContent className="grid gap-4">
+            <CardContent className="grid gap-6">
                 
-                    <button type="button" onClick={openFilePicker} className="cursor-pointer">
+                    <button type="button" onClick={openFilePicker} className="relative">
                         {!isFile && (
                  <Image
                     src={"https://placehold.co/640x360/png"}
                     alt=""
+                    className="object-contain h-90 w-160"
                     height={360}
                     width={640}
                     />
@@ -49,6 +56,7 @@ const anchor = useComboboxAnchor()
                     alt={file.name}
                     height={360}
                     width={640}
+                    className="object-contain h-90 w-160"
                     />)
                 }
           </button>
@@ -58,7 +66,7 @@ const anchor = useComboboxAnchor()
       items={frameworks}
       defaultValue={[frameworks[0]]}
     >
-      <ComboboxChips ref={anchor} className="w-full max-w-xs">
+      <ComboboxChips ref={anchor} className="w-full">
         <ComboboxValue>
           {(values) => (
             <Fragment>
@@ -85,10 +93,8 @@ const anchor = useComboboxAnchor()
             </CardContent>
 
          <CardFooter className="gap-1 justify-center">
-                            Missing Tags ? Create Now
-                            
-                           
-                        </CardFooter>
+                           <CreateTagForm/>
+                             </CardFooter>
         </>
     );
 }
