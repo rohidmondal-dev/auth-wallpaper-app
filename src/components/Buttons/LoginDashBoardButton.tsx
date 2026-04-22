@@ -8,14 +8,14 @@ const LoginDashBoardButton = () => {
 	const { data } = authClient.useSession();
 	if (data) {
 		return (
-			<Button asChild>
-				<Link href={"/studio"}>Dashboard</Link>
+			<Button render={<Link href={"/studio"}>Dashboard</Link>}>
+				
 			</Button>
 		);
 	}
 	return (
-		<Button>
-			<Link href={"/auth"}>Login</Link>
+		<Button render={<Link href={"/auth"}>Login</Link>}>
+			
 		</Button>
 	);
 };

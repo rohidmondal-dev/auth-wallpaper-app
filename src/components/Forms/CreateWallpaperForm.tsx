@@ -14,6 +14,9 @@ type CreateWallpaperFormProps = {
 };
 
 const CreateWallpaperForm = () => {
+ const[isFile,setIsFile] = useState(false);
+ const [inputTags,setInputtags]= useState<string[]>([])
+
 
     const frameworks = [
   "Next.js",
@@ -25,14 +28,24 @@ const CreateWallpaperForm = () => {
 
 const anchor = useComboboxAnchor()
 
-    const[isFile,setIsFile] = useState(false)
-    const{openFilePicker,filesContent}= useFilePicker({
+   
+    const{openFilePicker,filesContent,plainFiles}= useFilePicker({
         multiple:false,
         accept:"image/*",
         readAs:"DataURL",
         onFilesSuccessfullySelected:()=> setIsFile(true),
         onClear:()=> setIsFile(false)
     })
+
+const handleUpload =()=>{
+  console.log("File");
+  console.log(plainFiles[0]);
+
+  console.log("Tags");
+  console.log(inputTags);
+  
+}
+
     return (
         <>
             <CardContent className="grid gap-6">
@@ -64,7 +77,7 @@ const anchor = useComboboxAnchor()
       multiple
       autoHighlight
       items={frameworks}
-      defaultValue={[frameworks[0]]}
+      defaultValue={[]}
     >
       <ComboboxChips ref={anchor} className="w-full">
         <ComboboxValue>
@@ -73,7 +86,7 @@ const anchor = useComboboxAnchor()
               {values.map((value: string) => (
                 <ComboboxChip key={value}>{value}</ComboboxChip>
               ))}
-              <ComboboxChipsInput />
+              <ComboboxChipsInput placeholder="Type and select tags for wallpaper " />
             </Fragment>
           )}
         </ComboboxValue>
@@ -89,7 +102,7 @@ const anchor = useComboboxAnchor()
         </ComboboxList>
       </ComboboxContent>
     </Combobox>
-         <Button>Upload</Button>
+         <Button onClick={handleUpload}>Upload</Button>
             </CardContent>
 
          <CardFooter className="gap-1 justify-center">
